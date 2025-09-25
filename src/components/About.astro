@@ -1,0 +1,95 @@
+---
+import me from "../assets/me.jpeg";
+---
+
+{/* Añadimos un contenedor para el ScrollTrigger */}
+<div id="about-section-trigger">
+  <section
+    class="flex flex-col justify-center items-center gap-10 p-5 min-h-screen max-w-5xl mx-auto"
+  >
+    {/* Damos IDs a los elementos que vamos a animar */}
+    <h2 id="about-title" class="title">Sobre mi</h2>
+    <div class="flex items-center gap-20 text-lg">
+      <img
+        id="about-image"
+        src={me.src}
+        alt="Lorenzo Cremonese"
+        class="size-64 rounded-full aspect-square object-cover object-top shadow-lg"
+      />
+      <div class="flex flex-col">
+        {/* Usamos una clase común para los párrafos */}
+        <p class="about-text mt-5">
+          Me llamo Lorenzo Cremonese, Desarrollador de Aplicaciones Web italiano
+          🇮🇹, viviendo en España 🇪🇸.
+        </p>
+        <p class="about-text mt-5">
+          Me apasiona crear proyectos que unan tecnología y creatividad, con la
+          meta de crecer profesionalmente, explorando la inteligencia
+          artificial, la ciberseguridad y el diseño de soluciones que hagan la
+          vida más simple.
+        </p>
+        <p class="about-text mt-5">
+          Fuera del código, encuentro disciplina en la calistenia 🏋🏻‍♂️, motivación
+          en el aprendizaje de idiomas 🌏, inspiración en la música 🎹 y
+          adrenalina en el mundo de los motores 🏎️.
+        </p>
+        <p class="about-text">
+          Soy curioso, constante y siempre busco crecer, dentro y fuera de la
+          pantalla.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  // Registramos el plugin de ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Creamos una línea de tiempo para la sección "Sobre mi"
+    const aboutTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#about-section-trigger", // El elemento que activa la animación
+        start: "top center", // La animación empieza cuando el top del trigger llega al centro de la pantalla
+        toggleActions: "play none none none", // La animación se reproduce una vez y no se revierte
+      },
+    });
+
+    // Animación del título
+    aboutTl.from("#about-title", {
+      opacity: 0,
+      y: 50, // Se desliza desde abajo
+      duration: 0.8,
+      ease: "power3.out",
+    });
+
+    // Animación de la imagen
+    aboutTl.from(
+      "#about-image",
+      {
+        opacity: 0,
+        scale: 0.8, // Aparece escalando
+        duration: 1,
+        ease: "elastic.out(1, 0.75)",
+      },
+      "-=0.5" // Empieza 0.5s antes de que termine la animación anterior
+    );
+
+    // Animación escalonada de los párrafos
+    aboutTl.from(
+      ".about-text",
+      {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        ease: "power3.out",
+        stagger: 0.2, // Retraso de 0.2s entre cada párrafo
+      },
+      "-=0.5" // Empieza un poco después de que inicie la de la imagen
+    );
+  });
+</script>

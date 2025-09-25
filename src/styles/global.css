@@ -5,10 +5,14 @@
   --color-orange: #ff8c00;
   --color-dark: #1a1a1a;
   --color-light: #e0e0e0;
-  --color-blue: #00CED1;
+  --color-blue: #00ced1;
 }
 
 body {
   @apply bg-dark text-light font-sans;
   font-family: "Inter", sans-serif;
+}
+
+.title {
+  @apply text-5xl font-semibold bg-gradient-to-r from-orange-300 via-orange-500 to-[#ff8c00] bg-clip-text text-transparent;
 }

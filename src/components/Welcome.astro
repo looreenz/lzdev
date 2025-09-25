@@ -1,10 +1,13 @@
 ---
 import memoji from "../assets/memoji.webp";
+import Doc from "../icons/Doc.astro";
+import LinkedIn from "../icons/LinkedIn.astro";
+import GitHub from "../icons/GitHub.astro";
 ---
 
 <div id="container">
   <main
-    class="flex flex-col md:flex-row items-center justify-center min-h-screen gap-30 p-5"
+    class="flex flex-col md:flex-row items-center justify-center min-h-screen gap-30 p-5 max-w-4xl mx-auto"
   >
     <section
       class="flex flex-col items-center md:items-start text-center md:text-left gap-2"
@@ -12,31 +15,30 @@ import memoji from "../assets/memoji.webp";
       <p id="greeting" class="text-2xl">Hola 👋🏼, soy Lorenzo</p>
       <h1
         id="heading"
-        class="text-5xl font-semibold bg-gradient-to-r from-orange-300 via-orange-500 to-[#ff8c00] bg-clip-text text-transparent"
+        class="title"
       >
         Desarrollador Web
       </h1>
       <p id="subheading" class="text-xl">Entusiasta de IA y tecnología.</p>
-      <button
-        id="contact-button"
-        class="flex gap-3 items-center mt-8 cursor-pointer hover:bg-orange-400/40 border border-orange-400 text-light text-lg px-4 py-2 rounded-full transition-colors duration-300"
-      >
-        Contáctame
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.8"
-          stroke="currentColor"
-          class="size-6"
-		  id="arrow"
+      <div class="flex gap-3 items-center mt-8">
+        <button
+          id="contact-button"
+          class="flex gap-3 items-center cursor-pointer hover:bg-orange-400/40 border border-orange-400 text-light text-lg px-4 py-2 rounded-full transition-colors duration-300"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
-        </svg>
-      </button>
+          Descarga CV
+          <Doc class="size-6" />
+        </button>
+        <a href="">
+          <GitHub
+            class="social-icon size-7 text-light hover:text-orange-400 transition-colors duration-300"
+          />
+        </a>
+        <a href="">
+          <LinkedIn
+            class="social-icon size-7 text-light hover:text-orange-400 transition-colors duration-300"
+          />
+        </a>
+      </div>
     </section>
     <div
       id="memoji-container"
@@ -107,6 +109,17 @@ import memoji from "../assets/memoji.webp";
           ease: "back.out(1.7)",
         },
         "-=0.3"
+      )
+      .from(
+        ".social-icon",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.5,
+          ease: "power3.out",
+          stagger: 0.2,
+        },
+        "-=0.2"
       );
 
     // Animamos la imagen y su fondo
@@ -116,26 +129,6 @@ import memoji from "../assets/memoji.webp";
       duration: 1,
       delay: 0.5, // Empieza con un pequeño retraso
       ease: "elastic.out(1, 0.75)",
-    });
-
-    // Animación para la flecha del botón al pasar el ratón por encima
-    const contactButton = document.querySelector("#contact-button");
-    const arrow = document.querySelector("#arrow");
-
-    contactButton?.addEventListener("mouseenter", () => {
-      gsap.to(arrow, {
-        x: 5, // Mueve la flecha 5px a la derecha
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    });
-
-    contactButton?.addEventListener("mouseleave", () => {
-      gsap.to(arrow, {
-        x: 0, // Devuelve la flecha a su posición original
-        duration: 0.3,
-        ease: "power2.out",
-      });
     });
   });
 </script>
