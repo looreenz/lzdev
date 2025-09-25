@@ -9,16 +9,19 @@ import memoji from "../assets/memoji.webp";
     <section
       class="flex flex-col items-center md:items-start text-center md:text-left gap-2"
     >
-      <p class="text-2xl">Hola 👋🏼, soy Lorenzo</p>
+      <p id="greeting" class="text-2xl">Hola 👋🏼, soy Lorenzo</p>
       <h1
+        id="heading"
         class="text-5xl font-semibold bg-gradient-to-r from-orange-300 via-orange-500 to-[#ff8c00] bg-clip-text text-transparent"
       >
         Desarrollador Web
       </h1>
-      <p class="text-xl">Entusiasta de IA y tecnología.</p>
+      <p id="subheading" class="text-xl">Entusiasta de IA y tecnología.</p>
       <button
+        id="contact-button"
         class="flex gap-3 items-center mt-8 cursor-pointer hover:bg-orange-400/40 border border-orange-400 text-light text-lg px-4 py-2 rounded-full transition-colors duration-300"
-        >Contáctame
+      >
+        Contáctame
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -26,6 +29,7 @@ import memoji from "../assets/memoji.webp";
           stroke-width="1.8"
           stroke="currentColor"
           class="size-6"
+		  id="arrow"
         >
           <path
             stroke-linecap="round"
@@ -34,7 +38,10 @@ import memoji from "../assets/memoji.webp";
         </svg>
       </button>
     </section>
-    <div class="relative h-80 w-auto flex justify-center items-center">
+    <div
+      id="memoji-container"
+      class="relative h-80 w-auto flex justify-center items-center"
+    >
       {/* Fondo blur naranja */}
       <div
         class="absolute top-0 left-1/2 transform -translate-x-1/2 w-full h-full rounded-full"
@@ -47,7 +54,88 @@ import memoji from "../assets/memoji.webp";
       </div>
 
       {/* Imagen del Memoji */}
-      <img src={memoji.src} alt="avatar" class="relative h-80 w-auto mask-b-from-70%" />
+      <img
+        src={memoji.src}
+        alt="avatar"
+        class="relative h-80 w-auto mask-b-from-70%"
+      />
     </div>
   </main>
 </div>
+
+<script>
+  import { gsap } from "gsap";
+
+  // Nos aseguramos de que el DOM esté completamente cargado
+  document.addEventListener("DOMContentLoaded", () => {
+    // Creamos una línea de tiempo para las animaciones de entrada
+    const tl = gsap.timeline();
+
+    // Animamos los elementos de la sección de texto
+    tl.from("#greeting", {
+      opacity: 0,
+      y: 20,
+      duration: 0.6,
+      ease: "power3.out",
+    })
+      .from(
+        "#heading",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+        "-=0.4" // Se inicia 0.4s antes de que termine la anterior
+      )
+      .from(
+        "#subheading",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: "power3.out",
+        },
+        "-=0.4"
+      )
+      .from(
+        "#contact-button",
+        {
+          opacity: 0,
+          scale: 0.9,
+          duration: 0.5,
+          ease: "back.out(1.7)",
+        },
+        "-=0.3"
+      );
+
+    // Animamos la imagen y su fondo
+    gsap.from("#memoji-container", {
+      opacity: 0,
+      scale: 0.8,
+      duration: 1,
+      delay: 0.5, // Empieza con un pequeño retraso
+      ease: "elastic.out(1, 0.75)",
+    });
+
+    // Animación para la flecha del botón al pasar el ratón por encima
+    const contactButton = document.querySelector("#contact-button");
+    const arrow = document.querySelector("#arrow");
+
+    contactButton?.addEventListener("mouseenter", () => {
+      gsap.to(arrow, {
+        x: 5, // Mueve la flecha 5px a la derecha
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+
+    contactButton?.addEventListener("mouseleave", () => {
+      gsap.to(arrow, {
+        x: 0, // Devuelve la flecha a su posición original
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+  });
+</script>
