@@ -1,24 +1,27 @@
 ---
-// Nessuna modifica necessaria qui
+// No se necesitan cambios aquí
 ---
 
 <section
+  id="experience-section"
   class="flex flex-col justify-center items-center gap-10 p-5 min-h-screen w-full mx-auto"
 >
-  <h2 class="title text-4xl font-bold text-white">Experiencia</h2>
+  <h2 class="title text-4xl font-bold text-white" id="experience-title">
+    Experiencia
+  </h2>
 
-  {/* Contenedor principale della timeline */}
+  {/* Contenedor principal de la timeline */}
   <div
     id="timeline"
     class="relative mt-5 w-full max-w-3xl mx-auto flex flex-col gap-12
            before:content-[''] before:absolute before:top-2 before:left-4 md:before:left-1/2 before:w-0.5 before:h-full before:bg-orange-400/50"
   >
-    {/* -- Primo elemento della timeline (a destra su desktop) -- */}
+    {/* -- Primer elemento de la timeline (a la derecha en escritorio) -- */}
     <div
       class="timeline-item relative pl-12 md:pl-0
              before:content-[''] before:absolute before:top-2 before:left-4 md:before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-orange-500 before:rounded-full before:border-2 before:border-gray-900"
     >
-      {/* Contenitore del contenuto, posizionato a destra */}
+      {/* Contenedor del contenido, posicionado a la derecha */}
       <div class="md:w-1/2 md:mr-auto md:text-right md:pr-12">
         <h3 class="timeline-title text-2xl font-semibold text-white">
           Desarrollador Web
@@ -55,7 +58,20 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Animazione per la linea principale della timeline
+  // --- NUEVA ANIMACIÓN PARA EL TÍTULO ---
+  gsap.from("#experience-title", {
+    opacity: 0,
+    y: 50, // Se desplaza 50px hacia arriba
+    duration: 1,
+    ease: "power3.out",
+    scrollTrigger: {
+      trigger: "#experience-section", // El trigger es la sección completa
+      start: "top 80%", // Empieza cuando el 80% de la ventana llega a la sección
+      toggleActions: "play none none reverse", // La animación se revierte al salir
+    },
+  });
+
+  // Animación para la línea principal de la timeline
   gsap.fromTo(
     "#timeline::before",
     { scaleY: 0, transformOrigin: "top" },
@@ -72,11 +88,10 @@
     }
   );
 
-  // Animazione per ogni elemento della timeline
+  // Animación para cada elemento de la timeline
   const timelineItems = document.querySelectorAll(".timeline-item");
 
   timelineItems.forEach((item) => {
-    // Seleziona il blocco di contenuto per determinare la direzione
     const contentBlock = item.querySelector("div");
     const isRightAlignedOnDesktop =
       contentBlock?.classList.contains("md:mr-auto");
@@ -84,34 +99,16 @@
     const xDirection =
       window.innerWidth < 768 ? -30 : isRightAlignedOnDesktop ? -30 : 30;
 
-    const tl = gsap.timeline({
+    gsap.from(contentBlock, {
       scrollTrigger: {
         trigger: item,
         start: "top 85%",
         toggleActions: "play none none reverse",
       },
-    });
-
-    // Anima il pallino e poi il contenuto
-    tl.from(item.querySelector("div"), {
-      // Anima l'intero blocco di contenuto
       x: xDirection,
       opacity: 0,
       duration: 0.8,
       ease: "power2.out",
     });
-
-    // Se vuoi animare ogni singolo elemento in cascata (come prima)
-    /*
-    const title = item.querySelector(".timeline-title");
-    const subtitle = item.querySelector(".timeline-subtitle");
-    const date = item.querySelector(".timeline-date");
-    const content = item.querySelector(".timeline-content");
-
-    tl.from(title, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" })
-      .from(subtitle, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4")
-      .from(date, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4")
-      .from(content, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4");
-    */
   });
 </script>
