@@ -7,6 +7,9 @@
   --color-light: #e0e0e0;
   --color-blue: #00ced1;
 }
+html{
+  scroll-behavior: smooth;
+}
 
 body {
   @apply bg-dark text-light font-sans;

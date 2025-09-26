@@ -1,42 +1,29 @@
 ---
-import me from "../assets/me.jpeg";
+import { data } from "../data/es";
+const me = data.about.image;
 ---
 
 {/* Añadimos un contenedor para el ScrollTrigger */}
 <div id="about-section-trigger">
   <section
+    id="about"
     class="flex flex-col justify-center items-center gap-10 p-5 min-h-screen max-w-5xl mx-auto"
   >
     {/* Damos IDs a los elementos que vamos a animar */}
-    <h2 id="about-title" class="title">Sobre mi</h2>
+    <h2 id="about-title" class="title">Sobre mí</h2>
     <div class="flex items-center gap-20 text-lg">
       <img
         id="about-image"
-        src={me.src}
+        src={me}
         alt="Lorenzo Cremonese"
         class="size-64 rounded-full aspect-square object-cover object-top shadow-lg"
       />
       <div class="flex flex-col">
-        {/* Usamos una clase común para los párrafos */}
-        <p class="about-text mt-5">
-          Me llamo Lorenzo Cremonese, Desarrollador de Aplicaciones Web italiano
-          🇮🇹, viviendo en España 🇪🇸.
-        </p>
-        <p class="about-text mt-5">
-          Me apasiona crear proyectos que unan tecnología y creatividad, con la
-          meta de crecer profesionalmente, explorando la inteligencia
-          artificial, la ciberseguridad y el diseño de soluciones que hagan la
-          vida más simple.
-        </p>
-        <p class="about-text mt-5">
-          Fuera del código, encuentro disciplina en la calistenia 🏋🏻‍♂️, motivación
-          en el aprendizaje de idiomas 🌏, inspiración en la música 🎹 y
-          adrenalina en el mundo de los motores 🏎️.
-        </p>
-        <p class="about-text">
-          Soy curioso, constante y siempre busco crecer, dentro y fuera de la
-          pantalla.
-        </p>
+        {
+          data.about.paragraphs.map((paragraph) => (
+            <p class="about-text text-gray-300 mt-2">{paragraph}</p>
+          ))
+        }
       </div>
     </div>
   </section>

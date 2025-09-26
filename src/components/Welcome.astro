@@ -1,40 +1,38 @@
 ---
-import memoji from "../assets/memoji.webp";
-import Doc from "../icons/Doc.astro";
-import LinkedIn from "../icons/LinkedIn.astro";
-import GitHub from "../icons/GitHub.astro";
+import { data } from "../data/es";
+const CtaIcon = data.welcome.ctaIcon;
+const GitHubIcon = data.welcome.socialLinks.github.icon;
+const gitHubUrl = data.welcome.socialLinks.github.url;
+const LinkedInIcon = data.welcome.socialLinks.linkedin.icon;
+const linkedInUrl = data.welcome.socialLinks.linkedin.url;
 ---
 
 <div id="container">
   <main
+    id="welcome"
     class="flex flex-col md:flex-row items-center justify-center min-h-screen gap-30 p-5 max-w-4xl mx-auto"
   >
     <section
       class="flex flex-col items-center md:items-start text-center md:text-left gap-2"
     >
-      <p id="greeting" class="text-2xl">Hola 👋🏼, soy Lorenzo</p>
-      <h1
-        id="heading"
-        class="title"
-      >
-        Desarrollador Web
-      </h1>
-      <p id="subheading" class="text-xl">Entusiasta de IA y tecnología.</p>
+      <p id="greeting" class="text-2xl">{data.welcome.greet}</p>
+      <h1 id="heading" class="title">{data.welcome.title}</h1>
+      <p id="subheading" class="text-xl">{data.welcome.subtitle}</p>
       <div class="flex gap-3 items-center mt-8">
         <button
           id="contact-button"
           class="flex gap-3 items-center cursor-pointer hover:bg-orange-400/40 border border-orange-400 text-light text-lg px-4 py-2 rounded-full transition-colors duration-300"
         >
-          Descarga CV
-          <Doc class="size-6" />
+          {data.welcome.ctaText}
+          <CtaIcon class="size-6" />
         </button>
-        <a href="">
-          <GitHub
+        <a href={gitHubUrl} target="_blank" rel="noopener noreferrer">
+          <GitHubIcon
             class="social-icon size-7 text-light hover:text-orange-400 transition-colors duration-300"
           />
         </a>
-        <a href="">
-          <LinkedIn
+        <a href={linkedInUrl} target="_blank" rel="noopener noreferrer">
+          <LinkedInIcon
             class="social-icon size-7 text-light hover:text-orange-400 transition-colors duration-300"
           />
         </a>
@@ -57,7 +55,7 @@ import GitHub from "../icons/GitHub.astro";
 
       {/* Imagen del Memoji */}
       <img
-        src={memoji.src}
+        src={data.welcome.image}
         alt="avatar"
         class="relative h-80 w-auto mask-b-from-70%"
       />
