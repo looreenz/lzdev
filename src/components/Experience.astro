@@ -1,74 +1,117 @@
 ---
+// Nessuna modifica necessaria qui
 ---
 
 <section
   class="flex flex-col justify-center items-center gap-10 p-5 min-h-screen w-full mx-auto"
 >
-  <h2 class="title">Experiencia</h2>
+  <h2 class="title text-4xl font-bold text-white">Experiencia</h2>
 
-  {/* Contenedor principal de la timeline */}
+  {/* Contenedor principale della timeline */}
   <div
-    class="relative w-full max-w-3xl mx-auto flex flex-col gap-12
+    id="timeline"
+    class="relative mt-5 w-full max-w-3xl mx-auto flex flex-col gap-12
            before:content-[''] before:absolute before:top-2 before:left-4 md:before:left-1/2 before:w-0.5 before:h-full before:bg-orange-400/50"
   >
-    {/* -- Primer elemento de la timeline -- */}
-    <div class="relative pl-12 md:pl-0">
-      {/* Círculo en la línea de tiempo y Título */}
-      <h3
-        class="text-2xl font-semibold md:w-1/2 md:text-right md:pr-12
-               before:content-[''] before:absolute before:top-2 before:left-4 md:before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-orange-500 before:rounded-full before:border-2 before:border-gray-900"
-      >
-        Desarrollador Web - Freelance
-      </h3>
-
-      {/* Contenido del elemento */}
-      <div class="md:w-1/2 md:ml-auto md:pl-12">
-        <p class="italic text-orange-300/80 mt-1">Enero 2022 - Presente</p>
-        <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
-          <li>
-            Desarrollo de sitios web personalizados para pequeñas empresas y
-            emprendedores.
-          </li>
-          <li>
-            Implementación de soluciones de comercio electrónico utilizando
-            plataformas como Shopify y WooCommerce.
-          </li>
-          <li>
-            Optimización SEO para mejorar la visibilidad en motores de búsqueda.
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    {/* -- Segundo elemento de la timeline -- */}
-    <div class="relative pl-12 md:pl-0">
-      {/* Círculo en la línea de tiempo y Título */}
-      <h3
-        class="text-2xl font-semibold md:w-1/2 md:text-right md:pr-12
-               before:content-[''] before:absolute before:top-2 before:left-4 md:before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-orange-500 before:rounded-full before:border-2 before:border-gray-900"
-      >
-        Prácticas en Desarrollo Web - Tech Solutions
-      </h3>
-
-      {/* Contenido del elemento */}
-      <div class="md:w-1/2 md:ml-auto md:pl-12">
-        <p class="italic text-orange-300/80 mt-1">
-          Junio 2021 - Diciembre 2021
+    {/* -- Primo elemento della timeline (a destra su desktop) -- */}
+    <div
+      class="timeline-item relative pl-12 md:pl-0
+             before:content-[''] before:absolute before:top-2 before:left-4 md:before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-orange-500 before:rounded-full before:border-2 before:border-gray-900"
+    >
+      {/* Contenitore del contenuto, posizionato a destra */}
+      <div class="md:w-1/2 md:mr-auto md:text-right md:pr-12">
+        <h3 class="timeline-title text-2xl font-semibold text-white">
+          Desarrollador Web
+        </h3>
+        <h4 class="timeline-subtitle text-xl font-semibold text-gray-200">
+          Huming Music SL
+        </h4>
+        <p class="timeline-date italic text-orange-300/80 mt-1">
+          Junio 2025 - Presente
         </p>
-        <ul class="list-disc list-inside mt-2 space-y-1 text-gray-300">
+        <ul
+          class="timeline-content list-none list-inside mt-2 space-y-1 text-gray-300"
+        >
           <li>
-            Colaboración en el desarrollo de una aplicación web interna
-            utilizando React y Node.js.
+            Desarrollo de plataforma marketplace para artistas emergentes.
           </li>
           <li>
-            Participación en reuniones de equipo y revisión de código para
-            asegurar la calidad del software.
+            Desarrollo de plataforma dashboard para artistas, promotores y
+            agencias.
           </li>
           <li>
-            Aprendizaje y aplicación de mejores prácticas en desarrollo ágil.
+            Optimización de performace y SEO utilizando mejores prácticas,
+            desarrollando en Next.js, Tailwindcss y GCS con CI/CD.
           </li>
         </ul>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Animazione per la linea principale della timeline
+  gsap.fromTo(
+    "#timeline::before",
+    { scaleY: 0, transformOrigin: "top" },
+    {
+      scaleY: 1,
+      duration: 1.5,
+      ease: "power2.inOut",
+      scrollTrigger: {
+        trigger: "#timeline",
+        start: "top 80%",
+        end: "bottom 80%",
+        scrub: 1,
+      },
+    }
+  );
+
+  // Animazione per ogni elemento della timeline
+  const timelineItems = document.querySelectorAll(".timeline-item");
+
+  timelineItems.forEach((item) => {
+    // Seleziona il blocco di contenuto per determinare la direzione
+    const contentBlock = item.querySelector("div");
+    const isRightAlignedOnDesktop =
+      contentBlock?.classList.contains("md:mr-auto");
+
+    const xDirection =
+      window.innerWidth < 768 ? -30 : isRightAlignedOnDesktop ? -30 : 30;
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: item,
+        start: "top 85%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // Anima il pallino e poi il contenuto
+    tl.from(item.querySelector("div"), {
+      // Anima l'intero blocco di contenuto
+      x: xDirection,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+    });
+
+    // Se vuoi animare ogni singolo elemento in cascata (come prima)
+    /*
+    const title = item.querySelector(".timeline-title");
+    const subtitle = item.querySelector(".timeline-subtitle");
+    const date = item.querySelector(".timeline-date");
+    const content = item.querySelector(".timeline-content");
+
+    tl.from(title, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" })
+      .from(subtitle, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4")
+      .from(date, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4")
+      .from(content, { x: xDirection, opacity: 0, duration: 0.5, ease: "power2.out" }, "-=0.4");
+    */
+  });
+</script>
